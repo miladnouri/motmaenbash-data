@@ -3,21 +3,24 @@
 Motmaenbash-Data is a repository for fetching JSON data used by the **[Motmaenbash Android App](https://github.com/MiladNouri/motmaenbash-android)**. This repository ensures that the app has access to the most current data for identifying phishing SMS and scam sites, helping users stay protected from malicious activities.
 
 
-## Data Structure
+## Report Suspicious Apps, SMS, or Links
 
-The JSON data is structured to provide easy access and parsing within the Motmaenbash app. The structure includes:
-
-- **Phishing Links:** Details about URLs that are suspected of phishing or scam activities.
-- **Phishing SMS Senders:** Phone numbers of senders known to send phishing SMS.
-- **Phishing SMS Messages:** Specific SMS messages that are identified as phishing attempts.
-- **Suspicious Apps:** Apps that are suspected of malicious behavior.
-- **Suspicious Words:** Keywords that are commonly used in phishing attempts.
+Found a suspicious app, SMS, or website?
+Help protect others by reporting it here:
 
 
+**[🔗 Report a Scam](https://docs.google.com/forms/d/e/1FAIpQLSfzb1ueey6qQZdQb9tRm_Z7Mh3o8k_ZYysOv6AqTiQx39ahNg/viewform)**
 
-## Contribution
+Your reports help us keep everyone safer!
 
-We encourage the community to contribute to the dataset to help keep it updated and comprehensive:
+
+## Support the Project
+
+If you find MotmaenBash useful, You can support it by donate:
+
+💝 [Make a donation](https://milad.nu/page/donate)
+
+حمایت شما باعث تداوم این پروژه و بروزرسانی مداوم آن خواهد شد 💝
 
 
 
