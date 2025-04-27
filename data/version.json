@@ -1,11 +1,15 @@
 {
-  "latest_version_code": 1,
-  "latest_version_name": "Beta 1.0.0",
-  "force_update_version_code": 1,
+  "latest_version_code": 4,
+  "latest_version_name": "1.0.1-beta",
+  "force_update_version_code": 4,
   "update_links": [
     {
       "title": "به‌روزرسانی از کانال تلگرام",
       "link": "https://t.me/MiladNouriChannel"
+    },
+    {
+      "title": "به‌روزرسانی از گوگل‌پلی",
+      "link": "https://play.google.com/store/apps/details?id=nu.milad.motmaenbash"
     }
   ]
 }
