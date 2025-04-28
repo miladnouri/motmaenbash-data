@@ -1,0 +1,43 @@
+[
+  {
+    "title": "کانال  تلگرام میلاد نوری",
+    "description": "نوشته‌هایی از جنس آی‌تی",
+    "image": "https://milad.nu/demo1/media/illustrations/sigma/agency.png",
+    "link": "https://t.me/MiladNouriChannel",
+    "color": "#4D9BE6"
+  },
+  {
+    "title": "کانال  یوتوب میلاد نوری",
+    "description": "ویدئوهای آموزشی‌",
+    "image": "https://milad.nu/demo1/media/illustrations/sigma/agency.png",
+    "link": "https://youtube.com/miladnu",
+    "color": "#FF3B30"
+  },
+  {
+    "title": "پادکست رادیو میـــ",
+    "description": "شنیدن در کست‌باکس",
+    "image": "https://milad.nu/assets/radio%20mi%20new.jpg",
+    "link": "https://castbox.fm/channel/Radio-Mi-%7C-%D8%B1%D8%A7%D8%AF%DB%8C%D9%88-%D9%85%DB%8C%D9%80%D9%80-id4481413",
+    "color": "#FF5722"
+  },
+  {
+    "title": "حمایت مالی از مطمئن باش",
+    "description": "کمک به ادامه توسعه این برنامه",
+    "link": "https://milad.nu/page/donate",
+    "color": "#4CAF50"
+  },
+  {
+    "title": "رادیو میـــ در یوتوب",
+    "description": "نسخه ویدئویی رادیو میـــ",
+    "image": "https://milad.nu/assets/radio%20mi%20new.jpg",
+    "link": "https://youtube.com/playlist?list=PLRmRAhVbjeHqrc6Gf5DKu2eRJGkfo9A-Z&si=_RExXdBOz9EGYBlY",
+    "color": "#FF3B30"
+  },
+  {
+    "title": "رادیو میـــ در یوتوب",
+    "description": "نسخه ویدئویی رادیو میـــ",
+    "image": "https://milad.nu/assets/radio%20mi%20new.jpg",
+    "link": "https://youtube.com/playlist?list=PLRmRAhVbjeHqrc6Gf5DKu2eRJGkfo9A-Z&si=_RExXdBOz9EGYBlY",
+    "color": "#FF3B30"
+  }
+]

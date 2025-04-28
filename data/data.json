@@ -8,7 +8,8 @@
         "3d41b54324cea78448411a5ddb72c049d68b735e2c5437e170629f193f0d9f03",
         "11ec5fa8a14f1098cad157098ba65885df1e8682d4e77c4a0f99e302f43ddfc1",
         "c88efad4a6d93202a6838a9a87df6bf8c5e8e1df74c24a29f905f01ea0aac5c9",
-        "41fbc0d8fd4f53d96c4d6e32c87b857ec0ae18e7785f36e89043526d9bed1f80"
+        "41fbc0d8fd4f53d96c4d6e32c87b857ec0ae18e7785f36e89043526d9bed1f80",
+        "521bf122adeb3fb204484a7c167007642cac6c565f5d9aa23b933581d7278e22"
       ],
       "threat_type": 3,
       "url_match": 0,
@@ -26,14 +27,11 @@
       "alert_level": 1
     }
   ],
-  [
-  ],
-  [
-  ],
+  [],
+  [],
   [
     "76c92796f012eee8d5e5d09e3773ff3d2d5c2df134d6b768d70bd088d1fa93e0",
     "042632b6d76dc621892a3db49af2dc53f6bedd154b162057c6ccabccf62bc656"
   ],
-  [
-  ]
+  []
 ]
