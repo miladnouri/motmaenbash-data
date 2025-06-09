@@ -28,7 +28,6 @@ The data in this repository is curated from:
 
 - Reports submitted by Motmaenbash users
 - Verified sources and databases
-- Kaveh Project by Mohsen Tahmasbi, which tracks fraudulent activity in Iranian cyberspace
 - The **[Kaveh Project](https://github.com/Nooshdaroo-Code/Kaveh)** by [Mohsen Tahmasbi](https://github.com/mTahmasebi) — a malware discovery initiative focused on threats targeting users in Iran.
 
 These sources help keep the detection database accurate and up to date.
