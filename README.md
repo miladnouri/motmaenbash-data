@@ -22,11 +22,23 @@ If you find MotmaenBash useful, You can support it by donate:
 
 حمایت شما باعث تداوم این پروژه و بروزرسانی مداوم آن خواهد شد 💝
 
+## About the Data
+
+The data in this repository is curated from:
+
+- Reports submitted by Motmaenbash users
+- Verified sources and databases
+- Kaveh Project by Mohsen Tahmasbi, which tracks fraudulent activity in Iranian cyberspace
+- The **[Kaveh Project](https://github.com/Nooshdaroo-Code/Kaveh)** by [Mohsen Tahmasbi](https://github.com/mTahmasebi) — a malware discovery initiative focused on threats targeting users in Iran.
+
+These sources help keep the detection database accurate and up to date.
+
 
 
 ## License
 
-This repository is also licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/). See the [LICENSE](LICENSE) file for more details.
+
 
 ## Related Repositories
 
