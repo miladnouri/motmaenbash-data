@@ -28,7 +28,7 @@ The data in this repository is curated from:
 
 - Reports submitted by Motmaenbash users
 - Verified sources and databases
-- The **[Kaveh Project](https://github.com/Nooshdaroo-Code/Kaveh)** by [Mohsen Tahmasbi](https://github.com/mTahmasebi) — a malware discovery initiative focused on threats targeting users in Iran.
+- The **[Kaveh Project](https://github.com/Nooshdaroo-Code/Kaveh)** by [Mohsen Tahmasebi](https://github.com/moh53n) — a malware discovery initiative focused on threats targeting users in Iran.
 
 These sources help keep the detection database accurate and up to date.
 
