@@ -190,20 +190,25 @@ jobs:
           echo "Validation report exists"
           python -c "
           import json
-          with open('validation-report.json', 'r') as f:
-              report = json.load(f)
-          
-          summary = report.get('validation_summary', {})
-          print(f'Validation passed: {summary.get(\"validation_passed\", False)}')
-          print(f'Errors: {summary.get(\"errors\", 0)}')
-          print(f'Warnings: {summary.get(\"warnings\", 0)}')
-          
-          if summary.get('errors', 0) > 0:
-              print('❌ Validation failed with errors')
+          try:
+              with open('validation-report.json', 'r') as f:
+                  report = json.load(f)
+              
+              summary = report.get('validation_summary', {})
+              print(f'Validation passed: {summary.get(\"validation_passed\", False)}')
+              print(f'Errors: {summary.get(\"errors\", 0)}')
+              print(f'Warnings: {summary.get(\"warnings\", 0)}')
+              
+              if summary.get('errors', 0) > 0:
+                  print('❌ Validation failed with errors')
+                  exit(1)
+              else:
+                  print('✅ Validation passed')
+          except Exception as e:
+              print(f'Error reading validation report: {e}')
               exit(1)
-          else:
-              print('✅ Validation passed')
           "
         else
           echo "No validation report found"
+          exit 1
         fi
