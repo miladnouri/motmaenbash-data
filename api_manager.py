@@ -16,7 +16,6 @@ Features:
 """
 
 import asyncio
-import aiohttp
 import json
 import time
 import logging
@@ -31,6 +30,14 @@ import random
 import threading
 from concurrent.futures import ThreadPoolExecutor
 import os
+
+# Try to import aiohttp, fallback if not available
+try:
+    import aiohttp
+    AIOHTTP_AVAILABLE = True
+except ImportError:
+    AIOHTTP_AVAILABLE = False
+    print("Warning: aiohttp not available, some features will be disabled")
 
 # Configure logging
 logging.basicConfig(
