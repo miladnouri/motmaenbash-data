@@ -1,0 +1,291 @@
+name: Data Validation and Security Check
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'data/**'
+      - '*.py'
+      - 'requirements.txt'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'data/**'
+      - '*.py'
+      - 'requirements.txt'
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  validate-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, '3.10', '3.11']
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov bandit safety
+    
+    - name: Run security scan
+      run: |
+        echo "Running security scan..."
+        bandit -r . -f json -o bandit-report.json || true
+        safety check --json --output safety-report.json || true
+    
+    - name: Validate data integrity
+      run: |
+        echo "Validating data integrity..."
+        python validate_data.py --data-dir data --report validation-report.json
+        
+    - name: Run data optimization test
+      run: |
+        echo "Testing data optimization..."
+        python data_optimizer.py data/data.json --output test_optimized.json
+        
+    - name: Test API manager
+      run: |
+        echo "Testing API manager..."
+        python -c "
+        import asyncio
+        from api_manager import APIManager, APIRequest, RequestPriority
+        
+        async def test():
+            manager = APIManager(['https://httpbin.org'])
+            await manager.start()
+            
+            request = APIRequest(
+                url='get',
+                priority=RequestPriority.NORMAL
+            )
+            
+            success = manager.add_request(request)
+            print(f'Request added: {success}')
+            
+            await asyncio.sleep(2)
+            stats = manager.get_comprehensive_stats()
+            print(f'Stats: {stats}')
+            
+            await manager.stop()
+            
+        asyncio.run(test())
+        "
+        
+    - name: Run tests
+      run: |
+        echo "Running unit tests..."
+        python -m pytest tests/ -v --cov=. --cov-report=xml || true
+        
+    - name: Check file sizes
+      run: |
+        echo "Checking file sizes..."
+        find data/ -name "*.json" -exec ls -lh {} \; | sort -k5 -hr
+        
+    - name: Validate JSON syntax
+      run: |
+        echo "Validating JSON syntax..."
+        find data/ -name "*.json" -exec python -m json.tool {} \; >/dev/null
+        
+    - name: Check data statistics
+      run: |
+        echo "Generating data statistics..."
+        python -c "
+        import json
+        import os
+        
+        def analyze_data():
+            data_dir = 'data'
+            stats = {}
+            
+            for filename in os.listdir(data_dir):
+                if filename.endswith('.json'):
+                    file_path = os.path.join(data_dir, filename)
+                    try:
+                        with open(file_path, 'r', encoding='utf-8') as f:
+                            data = json.load(f)
+                            
+                        if filename == 'data.json':
+                            total_categories = len(data)
+                            total_entries = sum(len(cat) for cat in data)
+                            total_hashes = sum(len(entry.get('hashes', [])) for cat in data for entry in cat)
+                            
+                            stats['data.json'] = {
+                                'categories': total_categories,
+                                'entries': total_entries,
+                                'hashes': total_hashes
+                            }
+                        else:
+                            stats[filename] = {
+                                'items': len(data) if isinstance(data, list) else 1,
+                                'size_kb': os.path.getsize(file_path) / 1024
+                            }
+                            
+                    except Exception as e:
+                        stats[filename] = {'error': str(e)}
+                        
+            print('Data Statistics:')
+            print(json.dumps(stats, indent=2))
+            
+        analyze_data()
+        "
+        
+    - name: Upload reports
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: validation-reports-${{ matrix.python-version }}
+        path: |
+          validation-report.json
+          bandit-report.json
+          safety-report.json
+          test_optimized.json
+        retention-days: 30
+        
+    - name: Comment PR with validation results
+      if: github.event_name == 'pull_request' && matrix.python-version == '3.9'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          
+          let comment = '## 🔒 Data Validation Results\n\n';
+          
+          try {
+            const report = JSON.parse(fs.readFileSync('validation-report.json', 'utf8'));
+            const summary = report.validation_summary;
+            
+            comment += `### Validation Summary\n`;
+            comment += `- **Files Checked**: ${summary.total_files_checked}\n`;
+            comment += `- **Errors**: ${summary.errors}\n`;
+            comment += `- **Warnings**: ${summary.warnings}\n`;
+            comment += `- **Status**: ${summary.validation_passed ? '✅ PASSED' : '❌ FAILED'}\n\n`;
+            
+            if (report.statistics) {
+              comment += `### Statistics\n`;
+              comment += `- **Total Entries**: ${report.statistics.total_entries}\n`;
+              comment += `- **Validated Entries**: ${report.statistics.validated_entries}\n`;
+              comment += `- **Failed Entries**: ${report.statistics.failed_entries}\n`;
+              comment += `- **Suspicious Entries**: ${report.statistics.suspicious_entries}\n\n`;
+            }
+            
+            if (report.errors && report.errors.length > 0) {
+              comment += `### Errors\n`;
+              report.errors.forEach(error => {
+                comment += `- ${error}\n`;
+              });
+              comment += '\n';
+            }
+            
+            if (report.warnings && report.warnings.length > 0) {
+              comment += `### Warnings\n`;
+              report.warnings.forEach(warning => {
+                comment += `- ${warning}\n`;
+              });
+              comment += '\n';
+            }
+            
+          } catch (error) {
+            comment += `Error reading validation report: ${error.message}\n`;
+          }
+          
+          comment += `---\n*Generated by MotmaenBash Data Validation System*\n`;
+          comment += `*Author: محمدحسین نوروزی (Mohammad Hossein Norouzi)*`;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
+
+  performance-test:
+    runs-on: ubuntu-latest
+    needs: validate-data
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install memory-profiler psutil
+        
+    - name: Run performance tests
+      run: |
+        echo "Running performance tests..."
+        
+        # Memory usage test
+        python -c "
+        import psutil
+        import os
+        import json
+        import time
+        from memory_profiler import profile
+        
+        def load_and_process_data():
+            with open('data/data.json', 'r') as f:
+                data = json.load(f)
+            
+            # Process data
+            total_hashes = 0
+            for category in data:
+                for entry in category:
+                    total_hashes += len(entry.get('hashes', []))
+            
+            return total_hashes
+        
+        # Measure memory usage
+        process = psutil.Process()
+        start_memory = process.memory_info().rss / 1024 / 1024  # MB
+        start_time = time.time()
+        
+        result = load_and_process_data()
+        
+        end_time = time.time()
+        end_memory = process.memory_info().rss / 1024 / 1024  # MB
+        
+        print(f'Processing time: {end_time - start_time:.2f} seconds')
+        print(f'Memory usage: {end_memory - start_memory:.2f} MB')
+        print(f'Total hashes processed: {result:,}')
+        "
+        
+    - name: Benchmark data optimization
+      run: |
+        echo "Benchmarking data optimization..."
+        
+        time python data_optimizer.py data/data.json --output benchmark_optimized.json
+        
+        # Compare file sizes
+        original_size=$(stat -c%s data/data.json)
+        optimized_size=$(stat -c%s benchmark_optimized.json)
+        compression_ratio=$(echo "scale=2; $optimized_size * 100 / $original_size" | bc)
+        
+        echo "Original size: $original_size bytes"
+        echo "Optimized size: $optimized_size bytes"
+        echo "Compression ratio: $compression_ratio%"

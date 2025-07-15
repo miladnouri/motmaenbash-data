@@ -1,0 +1,23 @@
+{
+  "timestamp": "2025-07-15T13:45:36.144951",
+  "validation_summary": {
+    "total_files_checked": 4,
+    "errors": 0,
+    "warnings": 3,
+    "validation_passed": true
+  },
+  "statistics": {
+    "total_entries": 10,
+    "validated_entries": 10,
+    "failed_entries": 0,
+    "suspicious_entries": 3
+  },
+  "errors": [],
+  "warnings": [
+    "WARNING: Unusually large number of hashes: 1054 in data/data.json[4][1]",
+    "WARNING: Suspicious URL detected: https://youtube.com/playlist?list=PLRmRAhVbjeHqrc6Gf5DKu2eRJGkfo9A-Z&si=_RExXdBOz9EGYBlY in data/links.json",
+    "WARNING: Suspicious URL detected: https://youtube.com/playlist?list=PLRmRAhVbjeHqrc6Gf5DKu2eRJGkfo9A-Z&si=_RExXdBOz9EGYBlY in data/links.json"
+  ],
+  "author": "محمدحسین نوروزی (Mohammad Hossein Norouzi)",
+  "version": "2.0.0"
+}
